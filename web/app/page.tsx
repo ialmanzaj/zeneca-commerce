@@ -2,9 +2,9 @@ import { generateMetadata } from '@/utils/generateMetadata';
 import HomePage from './home/HomePage';
 
 export const metadata = generateMetadata({
-  title: 'Build Onchain Apps Template',
+  title: 'Shopping online with Zeneca',
   description:
-    'Save weeks of initial app setup and the hassle of integrating onchain components with web2 infrastructure.',
+    'Shop with stablecoins anywhere online',
   images: 'themes.png',
   pathname: '',
 });

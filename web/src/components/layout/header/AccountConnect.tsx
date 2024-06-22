@@ -3,6 +3,7 @@ import { baseSepolia } from 'viem/chains';
 import { useAccount, useChainId, useConnect, useDisconnect } from 'wagmi';
 import { AccountDropdown } from './AccountDropdown';
 import { AccountInfoPanel } from './AccountInfoPanel';
+import BlueCreateWalletButton from '../../Button/BlueCreateWalletButton';
 
 /**
  * AccountConnect
@@ -30,7 +31,7 @@ function AccountConnect() {
     >
       {(() => {
         if (account.status === 'disconnected') {
-          return <ConnectAccount />;
+          return <BlueCreateWalletButton />;
         }
 
         if (account.status === 'connected' && chainId !== baseSepolia.id) {

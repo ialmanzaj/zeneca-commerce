@@ -3,6 +3,8 @@ import useOnchainCoffeeMemos from '../_hooks/useOnchainCoffeeMemos';
 import FormBuyCoffee from './FormBuyCoffee';
 import Memos from './Memos';
 
+
+
 export default function BuyMeCoffeeContractDemo() {
   const { memos, refetchMemos } = useOnchainCoffeeMemos();
 
@@ -24,6 +26,7 @@ export default function BuyMeCoffeeContractDemo() {
         {memos?.length > 0 && <Memos memos={memos} />}
       </section>
       <aside>
+
         <div
           className={clsx([
             'mt-10 rounded-lg border border-solid border-boat-color-palette-line',
