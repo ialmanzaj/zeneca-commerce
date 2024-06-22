@@ -1,6 +1,8 @@
 # Zeneca Commerce
 
-Shop with stablecoins online. Enables customers to shop directly from the smart wallet and stablecoins to shop online(amazon, alibaba, etc) and merchants receive fiat.
+Shop with stablecoins online. Enables customers to shop directly from the smart wallet + stablecoins to shop online(amazon, alibaba, etc) and merchants receive fiat.
+
+### Overview
 
 This project has two main folders:
 
