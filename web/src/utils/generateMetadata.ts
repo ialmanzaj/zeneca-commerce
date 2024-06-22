@@ -19,7 +19,7 @@ export const generateMetadata = ({
   description = 'Shop with stablecoins anywhere online',
   frame = {},
   images,
-  url = 'https://github.com/ialmanzaj/zeneca-onchainsummer',
+  url = 'https://github.com/ialmanzaj/zeneca-commerce',
   pathname,
 }: MetaTagsProps): Metadata => {
   const i = Array.isArray(images) ? images : [images];
