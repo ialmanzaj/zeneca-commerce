@@ -1,4 +1,6 @@
-# Build Onchain Apps Template
+# Zeneca Commerce
+
+Shop with stablecoins online. Enables customers to shop directly from the smart wallet and stablecoins to shop online(amazon, alibaba, etc) and merchants receive fiat.
 
 This project has two main folders:
 

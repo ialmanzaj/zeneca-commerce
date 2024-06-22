@@ -1,4 +1,4 @@
-# Build Onchain Apps Template experiences
+# Zeneca Commerce
 
 ## Getting Started
 

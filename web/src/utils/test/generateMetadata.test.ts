@@ -3,8 +3,8 @@ import { generateMetadata } from '../generateMetadata';
 describe('generateMetadata', () => {
   it('should set metadataBase default', () => {
     const metadata = generateMetadata({
-      title: 'Build Onchain Apps Template',
-      description: 'Build Onchain Applications with the best consumer experience in a few minutes.',
+      title: 'Shopping online with Zeneca',
+      description: 'Shop with stablecoins anywhere online',
       images: 'themes.png',
       pathname: '',
     });
@@ -25,9 +25,9 @@ describe('generateMetadata', () => {
 
         const { generateMetadata: generateMetadata2 } = await import('../generateMetadata');
         const metadata = generateMetadata2({
-          title: 'Build Onchain Apps Template',
+          title: 'Shopping online with Zeneca',
           description:
-            'Build Onchain Applications with the best consumer experience in a few minutes.',
+            'Shop with stablecoins anywhere online',
           images: 'themes.png',
           pathname: '',
         });
