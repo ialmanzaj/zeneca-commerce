@@ -27,8 +27,10 @@ export default function StepStartMint({ setMintStep, mintStep, collectionName }:
   const contract = useCustom1155Contract();
 
   const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
-
+  console.log('chain', chain?.id);
+  
   const { data: mintData } = useSimulateContract({
+    chainId: chain?.id,
     address: contract.status === 'ready' ? contract.address : undefined,
     abi: contract.abi,
     functionName: 'mint',

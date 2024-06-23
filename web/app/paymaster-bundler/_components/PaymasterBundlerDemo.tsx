@@ -14,7 +14,7 @@ const defaultUrl = isLocalEnv
   : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/api/paymaster-proxy`;
 
 export default function PaymasterBundlerDemo() {
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const { data: callID, writeContracts } = useWriteContracts();
   const contract = usePaymasterBundlerContract();
 
@@ -33,6 +33,7 @@ export default function PaymasterBundlerDemo() {
           args: [address],
         },
       ],
+      chainId: chainId,
       capabilities: {
         paymasterService: {
           url: defaultUrl,

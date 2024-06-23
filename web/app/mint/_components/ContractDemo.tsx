@@ -25,7 +25,7 @@ export default function MintContractDemo() {
   const [mintStep, setMintStep] = useState<MintSteps>(MintSteps.START_MINT_STEP);
 
   const { chain: accountChain, address, isConnected } = useAccount();
-
+  console.log('accountChain', accountChain);
   const contract = useCustom1155Contract();
 
   const chain =

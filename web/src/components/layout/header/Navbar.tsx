@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import AccountConnect from './AccountConnect';
 import { Experiences } from './Experiences';
 import Image from 'next/image';
+import { ListItem } from './ListItem';
 
 export function NavbarLink({
   href,
@@ -91,7 +92,16 @@ function Navbar() {
                   )}
                 />
               </NavigationMenu.Root>
+
             </li>
+            <NextLink
+              href="/checkout"
+              passHref
+              className="text-center font-medium text-white no-underline"
+              aria-label="Checkout"
+            >
+               <Image src="/checkout.svg" alt="Checkout" width={32} height={32} />
+            </NextLink>
           </ul>
           <AccountConnect />
         </div>

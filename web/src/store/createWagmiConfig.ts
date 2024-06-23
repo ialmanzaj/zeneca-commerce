@@ -13,7 +13,7 @@ export function createWagmiConfig(rpcUrl: string, projectId?: string) {
   const baseSepoliaUrl = rpcUrl.replace(/\/v1\/(.+?)\//, '/v1/base-sepolia/');
 
   return createConfig({
-    chains: [baseSepolia],
+    chains: [baseSepolia, base],
     connectors: [
       coinbaseWallet({
         appName: 'zeneca-commerce',
@@ -22,8 +22,8 @@ export function createWagmiConfig(rpcUrl: string, projectId?: string) {
     ],
     ssr: true,
     transports: {
-      [baseSepolia.id]: http(baseSepoliaUrl),
       [base.id]: http(baseUrl),
+      [baseSepolia.id]: http(baseSepoliaUrl),
     },
   });
 }
