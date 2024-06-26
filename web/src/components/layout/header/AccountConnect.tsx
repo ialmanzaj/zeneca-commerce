@@ -1,9 +1,10 @@
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
-import { baseSepolia } from 'viem/chains';
+
 import { useAccount, useChainId, useConnect, useDisconnect } from 'wagmi';
 import { AccountDropdown } from './AccountDropdown';
 import { AccountInfoPanel } from './AccountInfoPanel';
 import BlueCreateWalletButton from '../../Button/BlueCreateWalletButton';
+import { EXPECTED_CHAIN } from '@/constants';
 
 /**
  * AccountConnect
@@ -34,7 +35,7 @@ function AccountConnect() {
           return <BlueCreateWalletButton />;
         }
 
-        if (account.status === 'connected' && chainId !== baseSepolia.id) {
+        if (account.status === 'connected' && chainId !== EXPECTED_CHAIN.id) {
           return (
             <button onClick={() => disconnect()} type="button">
               Wrong network
@@ -47,7 +48,7 @@ function AccountConnect() {
             <div className="flex flex-grow flex-col md:hidden">
               <AccountInfoPanel />
             </div>
-            <div className="flex hidden md:block">
+            <div className="flex  md:block">
               <AccountDropdown />
             </div>
           </>

@@ -2,22 +2,6 @@ import React, { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 //import { CoinbaseWalletLogo } from './CoinbaseWalletLogo';
 
-const buttonStyles = {
-    background: 'transparent',
-    border: '1px solid transparent',
-    boxSizing: 'border-box',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: 200,
-    fontWeight: 'bold',
-    fontSize: 18,
-    backgroundColor: '#5A10EF',
-    paddingLeft: 15,
-    paddingRight: 30,
-    borderRadius: 10,
-};
-
 export default function BlueCreateWalletButton() {
     const { connectors, connect, data } = useConnect();
 
@@ -30,8 +14,8 @@ export default function BlueCreateWalletButton() {
         }
     }, [connectors, connect]);
     return (
-        <button style={buttonStyles} onClick={createWallet}>
-            Create Wallet
+        <button className="mt-4 block w-full rounded-full py-3.5 text-lg font-bold text-white transition duration-300 cursor-pointer bg-blue-600 hover:bg-blue-700" onClick={createWallet}>
+            Conectar billetera
         </button>
     );
 }

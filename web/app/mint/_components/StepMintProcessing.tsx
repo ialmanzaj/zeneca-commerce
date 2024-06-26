@@ -11,10 +11,10 @@ export default function StepMintProcessing() {
       )}
     >
       <h2 className="mb-5 w-full text-center text-2xl font-semibold text-white">
-        Painting some pixels...
+        Processing your payment...
       </h2>
 
-      <div className="text-center text-6xl">🎨</div>
+      <div className="text-center text-6xl">💳</div>
 
       <div className="my-4 text-center text-sm text-gray-400">
         Please confirm transaction in your wallet

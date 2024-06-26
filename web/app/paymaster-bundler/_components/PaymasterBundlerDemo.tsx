@@ -1,11 +1,10 @@
 import clsx from 'clsx';
 import { useAccount } from 'wagmi';
 import { useWriteContracts } from 'wagmi/experimental';
-import { ContractAlertLayout } from 'app/buy-me-coffee/_components/ContractAlert';
+//import { ContractAlertLayout } from 'app/buy-me-coffee/_components/ContractAlert';
 import isLocal from '../../../src/utils/isLocal';
 import { usePaymasterBundlerContract } from '../_contracts/usePaymasterBundlerContract';
 import { CallStatus } from './CallStatus';
-
 // Target the Paymaster directly without a proxy if running on localhost.
 // Use the Paymaster Proxy when deployed.
 const isLocalEnv = isLocal();
@@ -62,9 +61,7 @@ export default function PaymasterBundlerDemo() {
             Mint NFTs with Coinbase Paymaster
           </h1>
         </header>
-        {!address && (
-          <ContractAlertLayout>Please connect your wallet to continue.</ContractAlertLayout>
-        )}
+        
         <button
           type="button"
           className={clsx(
