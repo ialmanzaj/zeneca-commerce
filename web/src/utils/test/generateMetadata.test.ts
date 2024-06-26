@@ -25,9 +25,9 @@ describe('generateMetadata', () => {
 
         const { generateMetadata: generateMetadata2 } = await import('../generateMetadata');
         const metadata = generateMetadata2({
-          title: 'Shopping online with Zeneca',
+          title: 'Zeneca Pay',
           description:
-            'Shop with stablecoins anywhere online',
+            'Help merchants accept crypto payment links and instantly receive local currency',
           images: 'themes.png',
           pathname: '',
         });

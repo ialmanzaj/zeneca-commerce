@@ -1,6 +1,6 @@
-# Zeneca Commerce
+# Zeneca Pay
 
-Shop with stablecoins online. Enables customers to shop directly from the smart wallet + stablecoins to shop online(amazon, alibaba, etc) and merchants receive fiat.
+Help merchants accept crypto payment links and instantly receive local currency.
 
 ### Overview
 

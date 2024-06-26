@@ -29,14 +29,15 @@ export default function Banner({ pageName, pageUrl, wip }: BannerProps) {
         </div>
         <div className="inline-flex flex-col items-start justify-start gap-2">
           <h1 className="font-inter  font-semibold leading-normal text-xl">
-            Shop online with Zeneca
+            Zeneca Pay
           </h1>
           <div className="text-base font-normal leading-normal gap-2">
-            Shop with stablecoins online. Enables customers to shop directly from the smart wallet + stablecoins to shop online(amazon, alibaba, etc) and merchants receive fiat.
+            Help merchants accept crypto payment links and instantly receive local currency.
+
           </div>
         </div>
       </div>
-      
+
     </section>
   );
 }

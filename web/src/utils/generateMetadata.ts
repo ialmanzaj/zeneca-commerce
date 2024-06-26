@@ -15,8 +15,8 @@ const defaultUrl = deployUrl
   : `http://localhost:${process.env.PORT ?? 3000}`;
 
 export const generateMetadata = ({
-  title = 'Shopping online with Zeneca',
-  description = 'Shop with stablecoins anywhere online',
+  title = 'Zeneca Pay',
+  description = 'Help merchants accept crypto payment links and instantly receive local currency',
   frame = {},
   images,
   url = 'https://github.com/ialmanzaj/zeneca-commerce',

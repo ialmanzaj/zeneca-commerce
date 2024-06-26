@@ -42,7 +42,7 @@ export function NavbarTitle() {
         className="font-robotoMono text-center text-xl font-medium text-white no-underline"
         aria-label="build-onchain-apps Github repository"
       >
-        Shop online with Zeneca
+        Zeneca Pay
       </NextLink>
     </div>
   );
@@ -95,12 +95,12 @@ function Navbar() {
 
             </li>
             <NextLink
-              href="/checkout"
+              href="/payment-link"
               passHref
               className="text-center font-medium text-white no-underline"
               aria-label="Checkout"
             >
-               <Image src="/checkout.svg" alt="Checkout" width={32} height={32} />
+              Products
             </NextLink>
           </ul>
           <AccountConnect />

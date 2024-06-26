@@ -1,9 +1,9 @@
 import { generateMetadata } from '@/utils/generateMetadata';
 
 export const metadata = generateMetadata({
-  title: 'Shopping online with Zeneca',
+  title: 'Zeneca Pay',
   description:
-    'Save weeks of initial app setup and the hassle of integrating onchain components with web2 infrastructure.',
+    'Help merchants accept crypto payment links and instantly receive local currency',
   images: 'themes.png',
   pathname: 'mint',
 });
