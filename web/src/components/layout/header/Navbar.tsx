@@ -21,7 +21,7 @@ export function NavbarLink({
   return (
     <NextLink
       href={href}
-      className="font-robotoMono px-0 text-center text-base font-normal text-white no-underline"
+      className="font-robotoMono px-0 text-center text-base font-normal  no-underline"
       target={target}
       aria-label={ariaLabel}
     >
@@ -39,7 +39,7 @@ export function NavbarTitle() {
       <NextLink
         href="/"
         passHref
-        className="font-robotoMono text-center text-xl font-medium text-white no-underline"
+        className="font-robotoMono text-center text-xl font-medium  no-underline"
         aria-label="build-onchain-apps Github repository"
       >
         Zeneca Pay
@@ -66,7 +66,7 @@ function Navbar() {
                 <NavigationMenu.List className={clsx('flex flex-row space-x-2')}>
                   <NavigationMenu.Item>
                     <NavigationMenu.Trigger className="group flex h-16 items-center justify-start gap-1">
-                      <span className="font-robotoMono text-center text-base font-normal text-white">
+                      <span className="font-robotoMono text-center text-base font-normal ">
                         Experiences
                       </span>
                       <ChevronDownIcon
@@ -78,7 +78,7 @@ function Navbar() {
                     <NavigationMenu.Content
                       className={clsx(
                         'h-38 inline-flex w-48 flex-col items-start justify-start gap-6',
-                        'rounded-lg bg-neutral-900 p-6 shadow backdrop-blur-2xl',
+                        'rounded-lg p-6 shadow backdrop-blur-2xl',
                       )}
                     >
                       <Experiences />
@@ -97,7 +97,7 @@ function Navbar() {
             <NextLink
               href="/payment-link"
               passHref
-              className="text-center font-medium text-white no-underline"
+              className="text-center font-medium  no-underline"
               aria-label="Checkout"
             >
               Products

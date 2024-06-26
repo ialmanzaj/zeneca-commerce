@@ -22,14 +22,10 @@ const PayDemo = dynamic(
  */
 export default function PayPage() {
     return (
-        <>
+        <Main>
 
-            <Main>
-
-                <PayDemo />
-            </Main>
-
-        </>
+            <PayDemo />
+        </Main>
     );
 }
 
