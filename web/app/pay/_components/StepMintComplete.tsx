@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/Button/Button';
-import { MintSteps } from './PayDemo';
+import { PaySteps } from './PayDemo';
 
 type MintCompleteStepProps = {
-  setMintStep: React.Dispatch<React.SetStateAction<MintSteps>>;
-  collectionName: string | null;
+  setPayStep: React.Dispatch<React.SetStateAction<PaySteps>>;
+  merchantName: string | null;
 };
 
-export default function StepMintComplete({ setMintStep, collectionName }: MintCompleteStepProps) {
+export default function StepMintComplete({ setPayStep, merchantName }: MintCompleteStepProps) {
   const handleMintAnother = useCallback(() => {
-    setMintStep(MintSteps.START_MINT_STEP);
-  }, [setMintStep]);
+    setPayStep(PaySteps.START_PAY_STEP);
+  }, [setPayStep]);
 
   return (
     <div
@@ -21,13 +21,9 @@ export default function StepMintComplete({ setMintStep, collectionName }: MintCo
       )}
     >
       <h2 className="mb-5 w-full text-center text-2xl font-semibold text-white">
-        Congrats! You minted {collectionName}
+        Congrats! You paid {merchantName}
       </h2>
-      <div className="text-center text-6xl">🎉</div>
-      <div className="my-4 text-center text-sm text-gray-400">
-        It will take ~ 5 minutes to show up in your wallet
-      </div>
-      <Button buttonContent="Mint another NFT" onClick={handleMintAnother} />
+      <div className="text-center text-6xl">💳</div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { baseSepolia } from 'viem/chains';
+import { baseSepolia, base } from 'viem/chains';
 import { generateContractHook } from '@/hooks/contracts';
 import Custom1155ABI from './Custom1155ABI';
 
@@ -9,6 +9,10 @@ export const useCustom1155Contract = generateContractHook({
   abi: Custom1155ABI,
   [baseSepolia.id]: {
     chain: baseSepolia,
+    address: '0x6268A5F72528E5297e5A63B35e523E5C131cC88C',
+  },
+  [base.id]: {
+    chain: base,
     address: '0x6268A5F72528E5297e5A63B35e523E5C131cC88C',
   },
   // more chains for this contract go here

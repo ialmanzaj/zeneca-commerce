@@ -12,6 +12,7 @@ import { useERC1155TokenMetadata } from '@/hooks/useERC1155TokenMetadata';
 import { getChainsForEnvironment } from '@/store/supportedChains';
 import { useCustom1155Contract } from '../_contracts/useCustom1155Contract';
 import Pay from './Pay';
+import SwitchNetwork from './SwitchNetwork';
 
 export enum PaySteps {
   START_PAY_STEP,
@@ -23,30 +24,7 @@ export enum PaySteps {
 export default function PayDemo() {
   const [payStep, setPayStep] = useState<PaySteps>(PaySteps.START_PAY_STEP);
 
-  const { chain: accountChain, address, isConnected } = useAccount();
-  console.log('accountChain', accountChain);
-  const contract = useCustom1155Contract();
-
-  const chain =
-    accountChain ?? getChainsForEnvironment().find((envChain) => EXPECTED_CHAIN.id === envChain.id);
-
-  const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
-
-  // The CustomERC1155 contract is a free mint, so instead of mint price we fetch tx fee estimate
-  const { data: txFeeEstimation, isLoading: isLoadingFeeEstimate } = useEstimateGas({
-    to: contract.status === 'ready' ? contract.address : undefined,
-    account: address,
-    chainId: chain?.id,
-    data: address
-      ? encodeFunctionData({
-        abi: contract.abi,
-        functionName: 'mint',
-        args: [address, BigInt(1), BigInt(1), address],
-      })
-      : undefined,
-    query: { enabled: onCorrectNetwork && !!address },
-  });
-
+  const { isConnected } = useAccount();
 
   return (
     <div className="bg-gray-800 text-white p-6 rounded-lg max-w-md mx-auto">
@@ -72,7 +50,7 @@ export default function PayDemo() {
       </div>
 
       <div className="border-t border-gray-700 my-4"></div>
-
+      
       {isConnected ? (
         <Pay
           setPayStep={setPayStep}
