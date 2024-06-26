@@ -19,7 +19,7 @@ export const generateMetadata = ({
   description = 'Help merchants accept crypto payment links and instantly receive local currency',
   frame = {},
   images,
-  url = 'https://github.com/ialmanzaj/zeneca-commerce',
+  url = 'https://github.com/ialmanzaj/zeneca-pay',
   pathname,
 }: MetaTagsProps): Metadata => {
   const i = Array.isArray(images) ? images : [images];

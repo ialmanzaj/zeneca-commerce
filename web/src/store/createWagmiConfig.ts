@@ -16,7 +16,7 @@ export function createWagmiConfig(rpcUrl: string, projectId?: string) {
     chains: [baseSepolia, base],
     connectors: [
       coinbaseWallet({
-        appName: 'zeneca-commerce',
+        appName: 'zeneca-pay',
         preference: 'smartWalletOnly',
       }),
     ],

@@ -23,7 +23,7 @@ export default function Footer() {
               >
                 Zeneca®
               </NextLink>
-              <NavbarLink href="https://github.com/ialmanzaj/zeneca-commerce" target="_blank">
+              <NavbarLink href="https://github.com/ialmanzaj/zeneca-pay" target="_blank">
                 <GitHubLogoIcon
                   width="24"
                   height="24"
