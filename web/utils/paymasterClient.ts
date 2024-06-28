@@ -13,4 +13,4 @@ export const client = createPublicClient({
 export const paymasterClient = createClient({
   chain: EXPECTED_CHAIN,
   transport: http(paymasterService),
-}).extend(paymasterActionsEip7677({ entryPoint: ENTRYPOINT_ADDRESS_V06 }));
+});

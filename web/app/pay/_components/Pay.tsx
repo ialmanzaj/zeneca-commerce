@@ -12,6 +12,8 @@ import { EXPECTED_CHAIN } from '@/constants';
 import PaymentComplete from './PaymentComplete';
 import Processing from './Processing';
 import { PaySteps } from './PayDemo';
+import { useCustom1155Contract } from '../_contracts/useCustom1155Contract';
+
 
 
 type StartPayProps = {
