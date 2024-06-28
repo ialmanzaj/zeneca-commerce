@@ -8,7 +8,6 @@ import {
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { clsx } from 'clsx';
 import AccountConnect from './AccountConnect';
-import { Experiences } from './Experiences';
 import { NavbarLink, NavbarTitle } from './Navbar';
 
 export default function NavbarMobile() {
@@ -39,15 +38,15 @@ export default function NavbarMobile() {
         <div>
           <ul className="mx-2 flex flex-col gap-4">
             <li className="flex">
-              <NavbarLink href="https://github.com/coinbase/build-onchain-apps" target="_blank">
+              <NavbarLink href="https://github.com/ialmanzaj/zeneca-pay" target="_blank">
                 <GitHubLogoIcon width="24" height="24" />
               </NavbarLink>
             </li>
             <li className="flex">
-              <NavbarLink href="/#get-started">Get Started</NavbarLink>
+              {/* <NavbarLink href="/#get-started">Get Started</NavbarLink> */}
             </li>
             <li className="flex">
-              <NavigationMenu.Root className="relative flex flex-grow flex-col">
+              {/*  <NavigationMenu.Root className="relative flex flex-grow flex-col">
                 <NavigationMenu.List className={clsx('flex flex-row space-x-2')}>
                   <NavigationMenu.Item>
                     <NavigationMenu.Trigger className="group flex items-center justify-start gap-1">
@@ -71,7 +70,7 @@ export default function NavbarMobile() {
                   </NavigationMenu.Item>
                 </NavigationMenu.List>
                 <NavigationMenu.Viewport className={clsx('flex flex-col justify-center')} />
-              </NavigationMenu.Root>
+              </NavigationMenu.Root> */}
             </li>
           </ul>
           <div className="mx-2 mt-4">
