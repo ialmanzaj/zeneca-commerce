@@ -34,7 +34,6 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
   const contract = useCustom1155Contract();
 
   const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
-  console.log('onCorrectNetwork', onCorrectNetwork, chain?.id, EXPECTED_CHAIN.id);
 
   const { data: mintData } = useSimulateContract({
     address: contract.status === 'ready' ? contract.address : undefined,
