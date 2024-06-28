@@ -5,6 +5,7 @@ import Banner from '@/components/layout/banner/banner';
 import Footer from '@/components/layout/footer/Footer';
 import Header from '@/components/layout/header/Header';
 import Main from '@/components/layout/Main';
+import { FC } from 'react';
 
 // Because the mint page relies so heavily on client-side state, without disabling SSR
 // for its internals we get annoying hydration errors. A future enhancement would be to
@@ -20,7 +21,12 @@ const PayDemo = dynamic(
  * Use the page component to wrap the components
  * that you want to render on the page.
  */
-export default function PayPage() {
+
+interface PageProps {
+    params: { id: string }
+}
+
+const PayPage: FC<PageProps> = ({ params }) => {
     return (
         <Main>
 
@@ -28,5 +34,9 @@ export default function PayPage() {
         </Main>
     );
 }
+
+export default PayPage
+
+
 
 
