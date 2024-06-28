@@ -8,6 +8,7 @@ import Footer from '@/components/footer';
 //import { v4 as uuidv4 } from 'uuid';
 
 //import PaymentLinkModal from '@/components/PaymentLinkModal';
+import PaymentLinkModal from '@/components/PaymentLinkModal';
 
 
 interface PaymentLink {
@@ -49,6 +50,7 @@ export default function HomePage() {
             <Main>
                 <div className="container mx-auto p-4">
                     <h1 className="text-2xl font-bold mb-4">Payment Links</h1>
+                    <PaymentLinkModal />
                     <table className="w-full">
                         <thead>
                             <tr>

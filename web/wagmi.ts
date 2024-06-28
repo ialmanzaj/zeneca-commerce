@@ -1,6 +1,6 @@
-import { http, createConfig } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { http, createConfig } from "wagmi";
+import { baseSepolia, base } from "wagmi/chains";
+import { coinbaseWallet } from "wagmi/connectors";
 
 export const wagmiConfig = createConfig({
   chains: [baseSepolia],
@@ -8,18 +8,18 @@ export const wagmiConfig = createConfig({
   multiInjectedProviderDiscovery: false,
   connectors: [
     coinbaseWallet({
-      appName: 'anOnchainAppIn100Components',
-      preference: 'all',
-      version: '4',
+      appName: "zeneca-pay",
+      preference: "smartWalletOnly",
     }),
   ],
   ssr: true,
   transports: {
     [baseSepolia.id]: http(),
+    [base.id]: http(),
   },
 });
 
-declare module 'wagmi' {
+declare module "wagmi" {
   interface Register {
     config: typeof wagmiConfig;
   }

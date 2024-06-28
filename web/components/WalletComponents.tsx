@@ -32,7 +32,6 @@ export function WalletComponents() {
             <Address className={color.foregroundMuted} />
             <EthBalance />
           </Identity>
-
           <WalletDropdownDisconnect />
         </WalletDropdown>
       </Wallet>
