@@ -46,7 +46,7 @@ const PaymentLinkModal: React.FC = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Create Payment Link</Button>
+                <Button variant="default">Create Payment Link</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

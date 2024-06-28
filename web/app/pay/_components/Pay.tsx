@@ -82,8 +82,7 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
             {payStep === PaySteps.START_PAY_STEP && (
                 <Button
                     onClick={handleMint}
-                    disabled={!onCorrectNetwork}
-                    className={clsx('my-4', onCorrectNetwork ? 'bg-white' : 'bg-gray-400')}
+                    className={clsx('w-full my-4')}
                 >
                     Pay
                 </Button>

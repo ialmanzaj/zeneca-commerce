@@ -52,10 +52,8 @@ export default function PayDemo() {
                     payStep={payStep}
                 />
             ) : (
-                <Wallet>
-                    <ConnectWallet className='p-3 rounded-2xl'>
-                    </ConnectWallet>
-                </Wallet>
+                <ConnectWallet className='p-3 rounded-2xl w-full' label='Pay'>
+                </ConnectWallet>
             )}
         </div>
     );
