@@ -61,7 +61,7 @@ function Navbar() {
         <div className="flex items-center justify-start gap-8">
           <ul className="hidden items-center justify-start gap-8 md:flex">
 
-            <li className="flex">
+            {/* <li className="flex">
               <NavigationMenu.Root className="relative">
                 <NavigationMenu.List className={clsx('flex flex-row space-x-2')}>
                   <NavigationMenu.Item>
@@ -93,15 +93,15 @@ function Navbar() {
                 />
               </NavigationMenu.Root>
 
-            </li>
-            <NextLink
+            </li> */}
+            {/* <NextLink
               href="/payment-link"
               passHref
               className="text-center font-medium  no-underline"
               aria-label="Checkout"
             >
               Products
-            </NextLink>
+            </NextLink> */}
           </ul>
           <AccountConnect />
         </div>
