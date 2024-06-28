@@ -5,7 +5,7 @@ export const metadata = generateMetadata({
     description:
         'Help merchants accept crypto payment links and instantly receive local currency',
     images: 'themes.png',
-    pathname: 'mint',
+    pathname: 'pay',
 });
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

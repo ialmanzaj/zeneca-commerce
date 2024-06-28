@@ -1,10 +1,10 @@
-import { isValidAAEntrypoint, isWalletASmartWallet } from '@coinbase/onchainkit/wallet';
+import { isValidAAEntrypoint, isWalletACoinbaseSmartWallet } from '@coinbase/onchainkit/wallet';
 import { NextRequest, NextResponse } from 'next/server';
 import { UserOperation } from 'permissionless';
 import { client, paymasterClient } from '@/utils/paymasterClient';
 import type {
   IsValidAAEntrypointOptions,
-  IsWalletASmartWalletOptions,
+  IsWalletACoinbaseSmartWalletOptions,
 } from '@coinbase/onchainkit/wallet';
 
 type PaymasterRequest = {
@@ -30,10 +30,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   // Validate the User Operation by checking if the sender address is a proxy with the expected bytecode.
   if (
-    !(await isWalletASmartWallet({
+    !(await isWalletACoinbaseSmartWallet({
       client,
       userOp,
-    } as IsWalletASmartWalletOptions))
+    } as IsWalletACoinbaseSmartWalletOptions))
   ) {
     return NextResponse.json({ error: 'invalid wallet' }, { status: 400 });
   }
@@ -41,18 +41,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     let result;
     // Initial checks and preliminary validation.
-    if (method === 'pm_getPaymasterStubData') {
-      result = await paymasterClient.getPaymasterStubData({
-        userOperation: userOp,
-      });
-      // Full validation and actual sponsorship data.
-    } else if (method === 'pm_getPaymasterData') {
-      result = await paymasterClient.getPaymasterData({
-        userOperation: userOp,
-      });
-    } else {
-      return NextResponse.json({ error: 'Method not found' }, { status: 404 });
-    }
+    
     return NextResponse.json({ result }, { status: 200 });
   } catch (error) {
     console.error('Error:', error);

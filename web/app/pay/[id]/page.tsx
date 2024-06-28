@@ -1,17 +1,17 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import Banner from '@/components/layout/banner/banner';
-import Footer from '@/components/layout/footer/Footer';
-import Header from '@/components/layout/header/Header';
-import Main from '@/components/layout/Main';
+
+import Footer from '@/components/footer';
+import Header from '@/components/header';
+import Main from '@/components/main';
 import { FC } from 'react';
 
 // Because the mint page relies so heavily on client-side state, without disabling SSR
 // for its internals we get annoying hydration errors. A future enhancement would be to
 // read token metadata through a provider that is available server-side.
 const PayDemo = dynamic(
-    async () => import('app/pay/_components/PayDemo').then((mod) => mod),
+    async () => import('@/app/pay/_components/PayDemo').then((mod) => mod),
     {
         ssr: false,
     },
@@ -29,14 +29,12 @@ interface PageProps {
 const PayPage: FC<PageProps> = ({ params }) => {
     return (
         <Main>
-
             <PayDemo />
         </Main>
     );
 }
 
 export default PayPage
-
 
 
 
