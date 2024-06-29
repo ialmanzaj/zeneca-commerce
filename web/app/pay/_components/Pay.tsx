@@ -31,6 +31,15 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
     console.log("address", address);
     const contract = useUSDCContract();
 
+
+    const { data: callsStatus } = useCallsStatus({
+        id: callID!,
+        query: {
+            refetchInterval: (data: any) =>
+                data.state.data?.status === 'CONFIRMED' ? false : 1000,
+        },
+    });
+
     if (contract.status !== 'ready') {
         console.error('Contract is not ready');
         return null;
@@ -58,14 +67,6 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
             },
         });
     };
-
-    const { data: callsStatus } = useCallsStatus({
-        id: callID!,
-        query: {
-            refetchInterval: (data: any) =>
-                data.state.data?.status === 'CONFIRMED' ? false : 1000,
-        },
-    });
 
 
     return (
