@@ -1,19 +1,18 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TransactionExecutionError } from 'viem';
 import {
     useAccount,
-    useSimulateContract,
-    useWaitForTransactionReceipt,
-    useWriteContract,
+
 } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { EXPECTED_CHAIN } from '@/constants';
 import PaymentComplete from './PaymentComplete';
 import Processing from './Processing';
 import { PaySteps } from './PayDemo';
-import { useCustom1155Contract } from '../_contracts/useCustom1155Contract';
-
+import { useUSDCContract } from '../_contracts/useUSDC';
+import { encodeFunctionData, parseAbiItem, Hex } from "viem";
+import { useWriteContracts, useCallsStatus, useCapabilities } from 'wagmi/experimental'
 
 
 type StartPayProps = {
@@ -21,67 +20,64 @@ type StartPayProps = {
     payStep: PaySteps;
 };
 
+const defaultUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL
+
 
 export default function Pay({ setPayStep, payStep }: StartPayProps) {
-    const { chain } = useAccount();
     const { address } = useAccount();
-    const contract = useCustom1155Contract();
+    const { data: callID, writeContracts } = useWriteContracts();
+    const [amount, setAmount] = useState('1');
+    const [merchantAddress, setMerchantAddress] = useState('0x02C48c159FDfc1fC18BA0323D67061dE1dEA329F');
+    console.log("address", address);
+    const contract = useUSDCContract();
 
-    const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
+    if (contract.status !== 'ready') {
+        console.error('Contract is not ready');
+        return null;
+    }
 
-    const { data: mintData } = useSimulateContract({
-        address: contract.status === 'ready' ? contract.address : undefined,
-        abi: contract.abi,
-        functionName: 'mint',
-        args: address ? [address, BigInt(1), BigInt(1), address] : undefined,
+    console.log("contract.address", contract.address);
+    console.log("contract.abi", contract.abi);
+    console.log("amount", amount);
+    console.log("merchantAddress", merchantAddress);
+
+    const handleTransfer = () => {
+        writeContracts({
+            contracts: [
+                {
+                    address: contract.address, // Sepolia USDC address
+                    abi: contract.abi,
+                    functionName: 'transfer',
+                    args: [merchantAddress, BigInt(amount) * BigInt(10 ** 6)], // Convert to USDC decimals (6)
+                },
+            ],
+            capabilities: {
+                paymasterService: {
+                    url: defaultUrl,
+                },
+            },
+        });
+    };
+
+    const { data: callsStatus } = useCallsStatus({
+        id: callID!,
         query: {
-            enabled: onCorrectNetwork,
+            refetchInterval: (data: any) =>
+                data.state.data?.status === 'CONFIRMED' ? false : 1000,
         },
     });
 
-    const { writeContract: performMint, error: errorMint, data: dataMint } = useWriteContract();
-
-    const { status: transactionStatus } = useWaitForTransactionReceipt({
-        hash: dataMint,
-        query: {
-            enabled: !!dataMint,
-        },
-    });
-
-    console.log('dataMint', dataMint);
-
-    useEffect(() => {
-        if (transactionStatus === 'success') {
-            setPayStep(PaySteps.PAY_COMPLETE_STEP);
-        }
-
-        if (errorMint) {
-            const isOutOfGas =
-                errorMint instanceof TransactionExecutionError &&
-                errorMint.message.toLowerCase().includes('out of gas');
-            setPayStep(isOutOfGas ? PaySteps.OUT_OF_GAS_STEP : PaySteps.START_PAY_STEP);
-        }
-    }, [transactionStatus, setPayStep, errorMint]);
-    console.log('mintData', mintData);
-
-    const handleMint = useCallback(() => {
-        console.log('mintData?.request', mintData?.request);
-        if (mintData?.request) {
-            performMint?.(mintData?.request);
-            setPayStep(PaySteps.PAY_PROCESSING_STEP);
-        }
-    }, [mintData, performMint, setPayStep]);
 
     return (
         <>
-            {payStep === PaySteps.PAY_PROCESSING_STEP && <Processing />}
-            {payStep === PaySteps.PAY_COMPLETE_STEP && (
+            {callsStatus?.status === 'PENDING' && <Processing />}
+            {callsStatus?.status === 'CONFIRMED' && (
                 <PaymentComplete setPayStep={setPayStep} merchantName={"Isaac"} />
             )}
 
-            {payStep === PaySteps.START_PAY_STEP && (
+            {callsStatus?.status !== 'CONFIRMED' && callsStatus?.status !== 'PENDING' && (
                 <Button
-                    onClick={handleMint}
+                    onClick={handleTransfer}
                     className={clsx('w-full my-4')}
                 >
                     Pay

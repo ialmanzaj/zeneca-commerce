@@ -1,6 +1,5 @@
 {
   "links": [
-    
     {
       "id": "link_fcda7b9e1697c4ab",
       "link": "link_fcda7b9e1697c4ab",
@@ -26,6 +25,19 @@
       "collectAddress": false,
       "collectPhoneNumber": false,
       "createdAt": "2024-06-28T22:38:09.925Z"
+    },
+    {
+      "id": "link_567ec3b4dcdc2428",
+      "url": "/pay/link_567ec3b4dcdc2428",
+      "currency": "USDC",
+      "amount": null,
+      "title": "",
+      "description": "",
+      "collectFullName": false,
+      "collectEmail": false,
+      "collectAddress": false,
+      "collectPhoneNumber": false,
+      "createdAt": "2024-06-29T01:11:07.180Z"
     }
   ]
 }

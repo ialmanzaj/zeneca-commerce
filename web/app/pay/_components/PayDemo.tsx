@@ -11,6 +11,7 @@ import {
 
 export enum PaySteps {
     START_PAY_STEP,
+    APPROVE_STEP,
     PAY_PROCESSING_STEP,
     OUT_OF_GAS_STEP,
     PAY_COMPLETE_STEP,
