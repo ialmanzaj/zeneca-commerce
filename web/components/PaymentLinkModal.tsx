@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import {
     Select,
     SelectContent,
@@ -18,6 +21,31 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 
+interface PaymentLinkData {
+    currency: string;
+    amount: number;
+    title: string;
+    description?: string;
+    collectFullName: boolean;
+    collectEmail: boolean;
+    collectAddress: boolean;
+    collectPhoneNumber: boolean;
+}
+
+const schema = z.object({
+    currency: z.string().min(1, { message: "Currency is required" }),
+    amount: z.number().positive({ message: "Amount must be positive" }),
+    title: z.string().min(1, { message: "Title is required" }),
+    description: z.string().optional(),
+    collectFullName: z.boolean(),
+    collectEmail: z.boolean(),
+    collectAddress: z.boolean(),
+    collectPhoneNumber: z.boolean(),
+});
+
+type FormData = z.infer<typeof schema>;
+
+
 const PaymentLinkModal: React.FC = () => {
     const [currency, setCurrency] = useState("USDC");
     const [amount, setAmount] = useState("");
@@ -28,20 +56,41 @@ const PaymentLinkModal: React.FC = () => {
     const [collectAddress, setCollectAddress] = useState(false);
     const [collectPhoneNumber, setCollectPhoneNumber] = useState(false);
 
-    const handleCreate = () => {
-        // Here you would typically send the data to your backend
-        console.log({
+    const handleCreate = async () => {
+        const paymentLinkData: PaymentLinkData = {
             currency,
-            amount,
+            amount: parseFloat(amount),
             title,
             description,
             collectFullName,
             collectEmail,
             collectAddress,
             collectPhoneNumber,
-        });
-        // Close the modal or show a success message
+        };
+
+        try {
+            const response = await fetch('/api/payment-links', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentLinkData),
+            });
+
+            if (response.ok) {
+                const createdLink = await response.json();
+                console.log('Payment link created:', createdLink);
+                // Here you can add logic to update your UI, close the modal, show a success message, etc.
+            } else {
+                console.error('Failed to create payment link');
+                // Handle error (show error message to user)
+            }
+        } catch (error) {
+            console.error('Error creating payment link:', error);
+            // Handle error (show error message to user)
+        }
     };
+
 
     return (
         <Dialog>
@@ -60,8 +109,7 @@ const PaymentLinkModal: React.FC = () => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="USDC">USDC</SelectItem>
-                                <SelectItem value="ETH">ETH</SelectItem>
-                                <SelectItem value="BTC">BTC</SelectItem>
+
                             </SelectContent>
                         </Select>
                         <Input

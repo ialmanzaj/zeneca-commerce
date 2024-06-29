@@ -15,6 +15,19 @@ export enum PaySteps {
     OUT_OF_GAS_STEP,
     PAY_COMPLETE_STEP,
 }
+interface PaymentLink {
+    id: string;
+    link: string;
+    currency: string;
+    amount: number;
+    title: string;
+    description?: string;
+    collectFullName: boolean;
+    collectEmail: boolean;
+    collectAddress: boolean;
+    collectPhoneNumber: boolean;
+    createdAt: string;
+}
 
 export default function PayDemo() {
     const [payStep, setPayStep] = useState<PaySteps>(PaySteps.START_PAY_STEP);

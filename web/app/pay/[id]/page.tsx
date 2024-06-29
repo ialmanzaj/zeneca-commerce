@@ -17,24 +17,30 @@ const PayDemo = dynamic(
     },
 );
 
-/**
- * Use the page component to wrap the components
- * that you want to render on the page.
- */
 
-interface PageProps {
-    params: { id: string }
+interface PaymentLink {
+    id: string;
+    link: string;
+    currency: string;
+    amount: number;
+    title: string;
+    description?: string;
+    collectFullName: boolean;
+    collectEmail: boolean;
+    collectAddress: boolean;
+    collectPhoneNumber: boolean;
+    createdAt: string;
 }
 
-const PayPage: FC<PageProps> = ({ params }) => {
+const PayPage: FC<{ params: { id: string } }> = ({ params }) => {
     return (
         <Main>
             <PayDemo />
         </Main>
     );
 }
+export default PayPage;
 
-export default PayPage
 
 
 

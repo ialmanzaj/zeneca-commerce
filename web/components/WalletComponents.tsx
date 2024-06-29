@@ -21,16 +21,15 @@ export function WalletComponents() {
       <Wallet>
         <ConnectWallet className='p-3 rounded-2xl'>
           <Avatar className="h-6 w-6" />
-          <Name />
+
         </ConnectWallet>
         <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick >
             <Avatar />
             <Name>
               <Badge />
             </Name>
             <Address className={color.foregroundMuted} />
-            <EthBalance />
           </Identity>
           <WalletDropdownDisconnect />
         </WalletDropdown>

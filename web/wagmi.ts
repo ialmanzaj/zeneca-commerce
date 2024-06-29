@@ -1,9 +1,10 @@
 import { http, createConfig } from "wagmi";
 import { baseSepolia, base } from "wagmi/chains";
 import { coinbaseWallet } from "wagmi/connectors";
+import { EXPECTED_CHAIN } from "@/constants";
 
 export const wagmiConfig = createConfig({
-  chains: [baseSepolia],
+  chains: [EXPECTED_CHAIN],
   // turn off injected provider discovery
   multiInjectedProviderDiscovery: false,
   connectors: [
