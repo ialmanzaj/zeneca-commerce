@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { getName } from '@coinbase/onchainkit/identity';
 import { encodeFunctionData, formatEther } from 'viem';

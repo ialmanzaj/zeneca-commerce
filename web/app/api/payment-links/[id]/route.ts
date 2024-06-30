@@ -36,13 +36,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  console.log("GET: Rendering for ID:", params.id);
-
   try {
     const data = await getPaymentLinks();
     const paymentLink = data.links.find((link) => link.id === params.id);
-
-    console.log("Found payment link:", paymentLink);
 
     if (!paymentLink) {
       console.log("Payment link not found");

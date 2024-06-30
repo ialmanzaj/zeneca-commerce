@@ -1,22 +1,9 @@
-'use client';
 
-import dynamic from 'next/dynamic';
+import { notFound } from 'next/navigation';
 
-import Footer from '@/components/footer';
-import Header from '@/components/header';
 import Main from '@/components/main';
 import { FC } from 'react';
-
-// Because the mint page relies so heavily on client-side state, without disabling SSR
-// for its internals we get annoying hydration errors. A future enhancement would be to
-// read token metadata through a provider that is available server-side.
-const PayDemo = dynamic(
-    async () => import('@/app/pay/_components/PayFlow').then((mod) => mod),
-    {
-        ssr: false,
-    },
-);
-
+import PayDemo from '@/app/pay/_components/PayFlow';
 
 interface PaymentLink {
     id: string;
@@ -28,23 +15,22 @@ interface PaymentLink {
     merchantName: string;
 }
 
-const paymentLinkExample: PaymentLink = {
-    id: '123',
-    link: 'https://www.google.com',
-    currency: 'USDC',
-    amount: 100,
-    title: 'Pago de servicios',
-    description: 'pago de servicios de internet de la empresa XYZ',
-    merchantName: 'Isaac Almanza',
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+async function getPaymentLink(id: string): Promise<PaymentLink> {
+    const res = await fetch(`${API_URL}/api/payment-links/${id}`);
+    if (!res.ok) notFound();
+    return res.json();
 }
 
-const PayPage: FC<{ params: { id: string } }> = ({ params }) => {
-    console.log(params);
+const PayPage: FC<{ params: { id: string } }> = async ({ params }) => {
+    const paymentLink = await getPaymentLink(params.id);
     return (
         <div className="bg-gray-100 min-h-screen">
 
             <Main>
-                <PayDemo link={paymentLinkExample} />
+                <PayDemo link={paymentLink} />
             </Main>
 
         </div>
