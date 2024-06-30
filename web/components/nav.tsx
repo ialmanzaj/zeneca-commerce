@@ -6,60 +6,60 @@ import { WalletComponents } from "./WalletComponents";
 
 
 export function NavbarLink({
-    href,
-    children,
-    target,
-    ariaLabel,
+  href,
+  children,
+  target,
+  ariaLabel,
 }: {
-    href: string;
-    children: React.ReactNode;
-    target?: string;
-    ariaLabel?: string;
+  href: string;
+  children: React.ReactNode;
+  target?: string;
+  ariaLabel?: string;
 }) {
-    return (
-        <NextLink
-            href={href}
-            className="font-robotoMono px-0 text-center text-base font-normal  no-underline"
-            target={target}
-            aria-label={ariaLabel}
-        >
-            {children}
-        </NextLink>
-    );
+  return (
+    <NextLink
+      href={href}
+      className="font-robotoMono px-0 text-center text-base font-normal  no-underline"
+      target={target}
+      aria-label={ariaLabel}
+    >
+      {children}
+    </NextLink>
+  );
 }
 
 export function NavbarTitle() {
-    return (
-        <div className="flex h-8 items-center justify-start gap-4">
-            <NextLink href="/" passHref className="relative h-8 w-8" aria-label="Home page">
-                <Image src="/zeneca-black.svg" alt="Zeneca Logo" width={32} height={32} />
-            </NextLink>
-            <NextLink
-                href="/"
-                passHref
-                className="font-robotoMono text-center text-xl font-medium  no-underline"
-                aria-label="build-onchain-apps Github repository"
-            >
-                Zeneca Pay
-            </NextLink>
-        </div>
-    );
+  return (
+    <div className="flex h-8 items-center justify-start gap-4">
+      <NextLink href="/" passHref className="relative h-8 w-8" aria-label="Home page">
+        <Image src="/zeneca-black.svg" alt="Zeneca Logo" width={32} height={32} />
+      </NextLink>
+      <NextLink
+        href="/"
+        passHref
+        className="font-robotoMono text-center text-xl font-medium  no-underline"
+        aria-label="build-onchain-apps Github repository"
+      >
+        Zeneca Pay
+      </NextLink>
+    </div>
+  );
 }
 
 function Navbar() {
-    return (
-        <nav
-            className={clsx(
-                'flex flex-1 flex-grow items-center justify-between',
-                'rounded-[50px] border bg-opacity-10 p-4 backdrop-blur-2xl',
-            )}
-        >
-            <div className="flex h-8 grow items-center justify-between gap-4">
-                <NavbarTitle />
-                <div className="flex items-center justify-start gap-8">
-                    <ul className="hidden items-center justify-start gap-8 md:flex">
+  return (
+    <nav
+      className={clsx(
+        'flex flex-1 flex-grow items-center justify-between',
+        ' bg-opacity-10 p-4',
+      )}
+    >
+      <div className="flex h-8 grow items-center justify-between gap-4">
+        <NavbarTitle />
+        <div className="flex items-center justify-start gap-8">
+          <ul className="hidden items-center justify-start gap-8 md:flex">
 
-                        {/* <li className="flex">
+            {/* <li className="flex">
               <NavigationMenu.Root className="relative">
                 <NavigationMenu.List className={clsx('flex flex-row space-x-2')}>
                   <NavigationMenu.Item>
@@ -92,7 +92,7 @@ function Navbar() {
               </NavigationMenu.Root>
 
             </li> */}
-                        {/* <NextLink
+            {/* <NextLink
               href="/payment-link"
               passHref
               className="text-center font-medium  no-underline"
@@ -100,12 +100,12 @@ function Navbar() {
             >
               Products
             </NextLink> */}
-                    </ul>
-                    <WalletComponents />
-                </div>
-            </div>
-        </nav>
-    );
+          </ul>
+          <WalletComponents />
+        </div>
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;
