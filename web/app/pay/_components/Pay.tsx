@@ -43,9 +43,9 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
     const { data: callID, writeContracts } = useWriteContracts();
     const [amount, setAmount] = useState('1');
     const [merchantAddress, setMerchantAddress] = useState('0x02C48c159FDfc1fC18BA0323D67061dE1dEA329F');
+    const [transactionSubmitted, setTransactionSubmitted] = useState(false);
 
     const contract = useUSDCContract();
-
 
     const { data: callsStatus } = useCallsStatus({
         id: callID!,
@@ -55,6 +55,35 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
         },
     });
 
+    console.log(callsStatus?.receipts);
+
+
+    const submitTransaction = useCallback(() => {
+        if (transactionSubmitted) return;
+
+        fetch('/api/transactions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: paymentLink.amount,
+                currency: paymentLink.currency,
+                merchantAddress: merchantAddress,
+                customerAddress: address,
+                paymentLinkId: paymentLink.id,
+                idempotencyKey: uuidv4(), // Generate a new UUID for each submission attempt
+            }),
+        }).then(() => {
+            setTransactionSubmitted(true);
+        });
+    }, [paymentLink, merchantAddress, address, transactionSubmitted]);
+
+    useEffect(() => {
+        if (callsStatus?.status === 'CONFIRMED') {
+            submitTransaction();
+        }
+    }, [callsStatus, submitTransaction]);
 
     if (contract.status !== 'ready') {
         console.error('Contract is not ready');
@@ -79,27 +108,6 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
             },
         });
     };
-
-    useEffect(() => {
-        if (callsStatus?.status === 'CONFIRMED') {
-            // Store transaction in the database
-            fetch('/api/transactions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    amount: paymentLink.amount,
-                    currency: paymentLink.currency,
-                    merchantAddress: merchantAddress,
-                    customerAddress: address,
-                    paymentLinkId: paymentLink.id,
-                    idempotencyKey: idempotencyKey,
-                }),
-            });
-        }
-    }, [callsStatus, paymentLink, merchantAddress, address]);
-
 
     return (
         <>
