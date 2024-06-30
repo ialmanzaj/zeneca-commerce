@@ -2,7 +2,7 @@
   "links": [
     {
       "id": "link_fcda7b9e1697c4ab",
-      "link": "link_fcda7b9e1697c4ab",
+      "url": "/pay/link_fcda7b9e1697c4ab",
       "currency": "USDC",
       "amount": 20,
       "title": "Pago de servicios",
@@ -16,7 +16,7 @@
     },
     {
       "id": "link_113063cc11fc2f6c",
-      "link": "link_113063cc11fc2f6c",
+      "url": "/pay/link_113063cc11fc2f6c",
       "currency": "USDC",
       "amount": 1,
       "title": "Pago de servicios",

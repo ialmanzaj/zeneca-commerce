@@ -28,7 +28,6 @@ const PayPage: FC<{ params: { id: string } }> = async ({ params }) => {
     const paymentLink = await getPaymentLink(params.id);
     return (
         <div className="bg-gray-100 min-h-screen">
-
             <Main>
                 <PayDemo link={paymentLink} />
             </Main>

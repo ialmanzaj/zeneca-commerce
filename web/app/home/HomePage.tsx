@@ -11,9 +11,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button"
 //import PaymentLinkModal from '@/components/PaymentLinkModal';
 import PaymentLinkModal from '@/components/PaymentLinkModal';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
+import { Copy } from "lucide-react";
 
 interface PaymentLink {
     id: string;
@@ -24,14 +24,24 @@ interface PaymentLink {
     description: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 /**
  * Use the page component to wrap the components
  * that you want to render on the page.
  */
+const truncateUrl = (url: string, maxLength: number) => {
+    if (url.length <= maxLength) return url;
+    return url.substring(0, maxLength - 3) + '...';
+};
+
 export default function HomePage() {
     const account = useAccount();
     const [links, setLinks] = useState<PaymentLink[]>([]);
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        // Optionally, you can add a toast notification here to confirm the copy action
+    };
 
     useEffect(() => {
         const fetchLinks = async () => {
@@ -77,6 +87,7 @@ export default function HomePage() {
                                         <TableHead className="text-left">Title</TableHead>
                                         <TableHead>Amount</TableHead>
                                         <TableHead className="text-right">Currency</TableHead>
+                                        <TableHead className="text-right">Link</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -84,8 +95,8 @@ export default function HomePage() {
                                         <>
                                             <TableRow key={link.id}>
                                                 <TableCell>
-                                                    <div className="font-medium">{link.title}</div>
-                                                    <div className="hidden text-sm text-muted-foreground md:inline">
+                                                    <div className="font-bold text-lg">{link.title}</div>
+                                                    <div className="text-sm text-muted-foreground">
                                                         {link.description}
                                                     </div>
                                                 </TableCell>
@@ -94,6 +105,31 @@ export default function HomePage() {
                                                     {link.amount}
                                                 </TableCell>
                                                 <TableCell className="text-right">{link.currency}</TableCell>
+
+                                                <TableCell className="text-right">
+                                                    <div className="flex items-center space-x-2 justify-right">
+                                                        <TooltipProvider>
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <span className="cursor-pointer underline">
+                                                                        {truncateUrl(`${API_URL}${link.url}`, 30)}
+                                                                    </span>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    Share this link to your customers.
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </TooltipProvider>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => copyToClipboard(`${API_URL}${link.url}`)}
+                                                        >
+                                                            <Copy className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </TableCell>
+
                                             </TableRow>
                                         </>
                                     ))}
