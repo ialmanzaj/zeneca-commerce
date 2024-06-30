@@ -26,12 +26,18 @@ interface PaymentLink {
     currency: string;
     amount: number;
     title: string;
-    url: string;
     description?: string;
     collectFullName: boolean;
     collectEmail: boolean;
     collectAddress: boolean;
     collectPhoneNumber: boolean;
+}
+
+interface PaymentLinkResponse {
+    currency: string;
+    amount: number;
+    title: string;
+    url: string;
 }
 
 const schema = z.object({
@@ -58,14 +64,13 @@ const PaymentLinkModal: React.FC = () => {
     const [collectAddress, setCollectAddress] = useState(false);
     const [collectPhoneNumber, setCollectPhoneNumber] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogLink, setDialogLink] = useState<PaymentLink | null>(null);
+    const [dialogLink, setDialogLink] = useState<PaymentLinkResponse | null>(null);
 
     const handleCreate = async () => {
         const paymentLinkData: PaymentLink = {
             currency,
             amount: parseFloat(amount),
             title,
-            url: "",
             description,
             collectFullName,
             collectEmail,
@@ -85,6 +90,7 @@ const PaymentLinkModal: React.FC = () => {
             if (response.ok) {
                 setIsDialogOpen(false);
                 const createdLink = await response.json();
+                console.log("createdLink", createdLink)
                 setDialogLink(createdLink);
                 console.log('Payment link created:', createdLink);
                 // Here you can add logic to update your UI, close the modal, show a success message, etc.
