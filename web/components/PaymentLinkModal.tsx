@@ -20,11 +20,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import SharePaymentLinkDialog from "@/components/share";
 
-interface PaymentLinkData {
+interface PaymentLink {
     currency: string;
     amount: number;
     title: string;
+    url?: string;
     description?: string;
     collectFullName: boolean;
     collectEmail: boolean;
@@ -55,9 +57,11 @@ const PaymentLinkModal: React.FC = () => {
     const [collectEmail, setCollectEmail] = useState(false);
     const [collectAddress, setCollectAddress] = useState(false);
     const [collectPhoneNumber, setCollectPhoneNumber] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [dialogLink, setDialogLink] = useState<PaymentLink | null>(null);
 
     const handleCreate = async () => {
-        const paymentLinkData: PaymentLinkData = {
+        const paymentLinkData: PaymentLink = {
             currency,
             amount: parseFloat(amount),
             title,
@@ -78,7 +82,9 @@ const PaymentLinkModal: React.FC = () => {
             });
 
             if (response.ok) {
+                setIsDialogOpen(false);
                 const createdLink = await response.json();
+                setDialogLink(createdLink);
                 console.log('Payment link created:', createdLink);
                 // Here you can add logic to update your UI, close the modal, show a success message, etc.
             } else {
@@ -91,80 +97,93 @@ const PaymentLinkModal: React.FC = () => {
         }
     };
 
+    const handleClose = () => {
+        setIsDialogOpen(false);
+
+    };
+
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="default" className="ml-auto gap-1">Create Payment Link</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Payment link</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-2 gap-4">
-                        <Select value={currency} onValueChange={setCurrency}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select currency" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="USDC">USDC</SelectItem>
+        <>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                    <Button variant="default" className="ml-auto gap-1">Create Payment Link</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Payment link</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <Select value={currency} onValueChange={setCurrency}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select currency" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="USDC">USDC</SelectItem>
 
-                            </SelectContent>
-                        </Select>
+                                </SelectContent>
+                            </Select>
+                            <Input
+                                type="number"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                placeholder="Amount"
+                            />
+                        </div>
                         <Input
-                            type="number"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="Amount"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Title"
                         />
-                    </div>
-                    <Input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Title"
-                    />
-                    <Textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Description (optional)"
-                    />
-                    <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="fullName"
-                            checked={collectFullName}
-                            onCheckedChange={(checked) => setCollectFullName(checked as boolean)}
+                        <Textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Description (optional)"
                         />
-                        <label htmlFor="fullName">Collect full name</label>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="fullName"
+                                checked={collectFullName}
+                                onCheckedChange={(checked) => setCollectFullName(checked as boolean)}
+                            />
+                            <label htmlFor="fullName">Collect full name</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="email"
+                                checked={collectEmail}
+                                onCheckedChange={(checked) => setCollectEmail(checked as boolean)}
+                            />
+                            <label htmlFor="email">Collect email</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="address"
+                                checked={collectAddress}
+                                onCheckedChange={(checked) => setCollectAddress(checked as boolean)}
+                            />
+                            <label htmlFor="address">Collect address</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="phoneNumber"
+                                checked={collectPhoneNumber}
+                                onCheckedChange={(checked) => setCollectPhoneNumber(checked as boolean)}
+                            />
+                            <label htmlFor="phoneNumber">Collect phone number</label>
+                        </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="email"
-                            checked={collectEmail}
-                            onCheckedChange={(checked) => setCollectEmail(checked as boolean)}
-                        />
-                        <label htmlFor="email">Collect email</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="address"
-                            checked={collectAddress}
-                            onCheckedChange={(checked) => setCollectAddress(checked as boolean)}
-                        />
-                        <label htmlFor="address">Collect address</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="phoneNumber"
-                            checked={collectPhoneNumber}
-                            onCheckedChange={(checked) => setCollectPhoneNumber(checked as boolean)}
-                        />
-                        <label htmlFor="phoneNumber">Collect phone number</label>
-                    </div>
-                </div>
-                <Button onClick={handleCreate} className="w-full">Create</Button>
-            </DialogContent>
-        </Dialog>
+                    <Button onClick={handleCreate} className="w-full">Create</Button>
+                </DialogContent>
+            </Dialog>
+            {dialogLink && (
+                <SharePaymentLinkDialog
+                    isOpened={dialogLink !== null}
+                    paymentLink={dialogLink}
+                />
+            )}
+        </>
     );
 };
 
