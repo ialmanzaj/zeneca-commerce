@@ -7,7 +7,10 @@
       "amount": 20,
       "title": "Pago de servicios",
       "description": "pago de servicios de internet de la empresa XYZ",
-      "merchantName": "Isaac Almanza",
+      "merchant": {
+        "id": "merchant_113063cc11fc2f6c",
+        "name": "Isaac Almanza"
+      },
       "collectFullName": false,
       "collectEmail": false,
       "collectAddress": false,
@@ -21,7 +24,10 @@
       "amount": 1,
       "title": "Pago de servicios",
       "description": "pago de servicios de internet de la empresa XYZ",
-      "merchantName": "Isaac Almanza",
+      "merchant": {
+        "id": "merchant_113063cc11fc2f6c",
+        "name": "Isaac Almanza"
+      },
       "collectFullName": false,
       "collectEmail": false,
       "collectAddress": false,
@@ -35,12 +41,28 @@
       "amount": 1,
       "title": "Pago de servicios",
       "description": "pago de servicios de internet de la empresa XYZ",
-      "merchantName": "Isaac Almanza",
+      "merchant": {
+        "id": "merchant_113063cc11fc2f6c",
+        "name": "Isaac Almanza"
+      },
       "collectFullName": false,
       "collectEmail": false,
       "collectAddress": false,
       "collectPhoneNumber": false,
       "createdAt": "2024-06-29T01:11:07.180Z"
+    },
+    {
+      "id": "link_d56218bf3c15a9bd",
+      "url": "/pay/link_d56218bf3c15a9bd",
+      "currency": "USDC",
+      "amount": null,
+      "title": "",
+      "description": "",
+      "collectFullName": false,
+      "collectEmail": false,
+      "collectAddress": false,
+      "collectPhoneNumber": false,
+      "createdAt": "2024-06-30T14:30:17.124Z"
     }
   ]
 }

@@ -47,7 +47,7 @@ export default function PayFlow({ link }: { link: PaymentLink }) {
                 </div>
                 <div className="flex items-center mb-2">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 mr-3"></div>
-                    <div>
+                    <div className="mx-6">
                         <p className="font-bold">{link.title}</p>
                         <p className="text-gray-400">{link.description}</p>
                     </div>
@@ -61,6 +61,7 @@ export default function PayFlow({ link }: { link: PaymentLink }) {
                 <Pay
                     setPayStep={setPayStep}
                     payStep={payStep}
+                    paymentLink={link}
                 />
             ) : (
                 <ConnectWallet className='p-3 rounded-2xl w-full' label='Pay'>

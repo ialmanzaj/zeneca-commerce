@@ -14,21 +14,35 @@ import { useUSDCContract } from '../_contracts/useUSDC';
 import { encodeFunctionData, parseAbiItem, Hex } from "viem";
 import { useWriteContracts, useCallsStatus, useCapabilities } from 'wagmi/experimental'
 
+interface PaymentLink {
+    id: string;
+    link: string;
+    currency: string;
+    amount: number;
+    title: string;
+    description?: string;
+    merchantName: string;
+}
+
 
 type StartPayProps = {
     setPayStep: React.Dispatch<React.SetStateAction<PaySteps>>;
     payStep: PaySteps;
+    paymentLink: PaymentLink;
 };
+
+
 
 const defaultUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL
 
 
-export default function Pay({ setPayStep, payStep }: StartPayProps) {
+export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps) {
+    console.log("paymentLink", paymentLink);
     const { address } = useAccount();
     const { data: callID, writeContracts } = useWriteContracts();
     const [amount, setAmount] = useState('1');
     const [merchantAddress, setMerchantAddress] = useState('0x02C48c159FDfc1fC18BA0323D67061dE1dEA329F');
-    console.log("address", address);
+    
     const contract = useUSDCContract();
 
 
@@ -39,16 +53,13 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
                 data.state.data?.status === 'CONFIRMED' ? false : 1000,
         },
     });
+   
 
     if (contract.status !== 'ready') {
         console.error('Contract is not ready');
         return null;
     }
 
-    console.log("contract.address", contract.address);
-    console.log("contract.abi", contract.abi);
-    console.log("amount", amount);
-    console.log("merchantAddress", merchantAddress);
 
     const handleTransfer = () => {
         writeContracts({
@@ -73,7 +84,7 @@ export default function Pay({ setPayStep, payStep }: StartPayProps) {
         <>
             {callsStatus?.status === 'PENDING' && <Processing />}
             {callsStatus?.status === 'CONFIRMED' && (
-                <PaymentComplete setPayStep={setPayStep} merchantName={"Isaac"} />
+                <PaymentComplete setPayStep={setPayStep} merchantName={paymentLink.merchantName} />
             )}
 
             {callsStatus?.status !== 'CONFIRMED' && callsStatus?.status !== 'PENDING' && (

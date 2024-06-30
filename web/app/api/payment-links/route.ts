@@ -1,59 +1,51 @@
+import { NextResponse } from "next/server";
 
-import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-import crypto from 'crypto';
-
-interface PaymentLink {
-  id: string;
-  url: string;
-  currency: string;
-  amount: number;
-  title: string;
-  description?: string;
-  collectFullName: boolean;
-  collectEmail: boolean;
-  collectAddress: boolean;
-  collectPhoneNumber: boolean;
-  createdAt: string;
-}
-
-interface PaymentLinksData {
-  links: PaymentLink[];
-}
-
-const dataFilePath = path.join(process.cwd(), 'data', 'paymentLinks.json');
-
-async function getPaymentLinks(): Promise<PaymentLinksData> {
-  const jsonData = await fs.readFile(dataFilePath, 'utf8');
-  return JSON.parse(jsonData);
-}
-
-async function savePaymentLinks(data: PaymentLinksData): Promise<void> {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
-}
+import crypto from "crypto";
+import { prisma } from "@/lib/prisma";
 
 function generateRandomId(): string {
-  return `link_${crypto.randomBytes(8).toString('hex')}`;
+  return `link_${crypto.randomBytes(8).toString("hex")}`;
 }
 
-
 export async function GET() {
-  const data = await getPaymentLinks();
-  return NextResponse.json(data.links);
+  try {
+    const links = await prisma.paymentLink.findMany({
+      select: {
+        id: true,
+        url: true,
+        title: true,
+        amount: true,
+        currency: true,
+        description: true,
+      },
+    });
+    return NextResponse.json(links);
+  } catch (error) {
+    console.error("Error fetching payment links:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch payment links" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
-  const data = await getPaymentLinks();
-  const body = await request.json();
-  const randomId = generateRandomId();
-  const newLink: PaymentLink = {
-    id: randomId,
-    url: `/pay/${randomId}`,
-    ...body,
-    createdAt: new Date().toISOString(),
-  };
-  data.links.push(newLink);
-  await savePaymentLinks(data);
-  return NextResponse.json(newLink, { status: 201 });
+  try {
+    const body = await request.json();
+    const randomId = generateRandomId();
+    const newLink = await prisma.paymentLink.create({
+      data: {
+        id: randomId,
+        url: `/pay/${randomId}`,
+        ...body,
+      },
+    });
+    return NextResponse.json(newLink, { status: 201 });
+  } catch (error) {
+    console.error("Error creating payment link:", error);
+    return NextResponse.json(
+      { error: "Failed to create payment link" },
+      { status: 500 }
+    );
+  }
 }
