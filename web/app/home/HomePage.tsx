@@ -15,6 +15,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 import { Copy } from "lucide-react";
 
+
 interface PaymentLink {
     id: string;
     url: string;
@@ -22,6 +23,16 @@ interface PaymentLink {
     amount: number;
     currency: string;
     description: string;
+}
+
+interface Transaction {
+    id: string;
+    merchantAddress: string;
+    customerAddress: string;
+    amount: number;
+    currency: string;
+    paymentLink: PaymentLink;
+    createdAt: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -38,6 +49,8 @@ const truncateUrl = (url: string, maxLength: number) => {
 export default function HomePage() {
     const account = useAccount();
     const [links, setLinks] = useState<PaymentLink[]>([]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
         // Optionally, you can add a toast notification here to confirm the copy action
@@ -61,6 +74,24 @@ export default function HomePage() {
         fetchLinks();
     }, []);
 
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                const response = await fetch('/api/transactions');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch transactions');
+                }
+                const data = await response.json();
+                setTransactions(data);
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+                // Handle error (e.g., show error message to user)
+            }
+        };
+
+        fetchTransactions();
+    }, []);
+    console.log(transactions);
 
     return (
         <div id="page-container">
@@ -143,9 +174,9 @@ export default function HomePage() {
                     >
                         <CardHeader className="flex flex-row items-center">
                             <div className="grid gap-2">
-                                <CardTitle>Payments</CardTitle>
+                                <CardTitle>Transactions</CardTitle>
                                 <CardDescription>
-                                    View all payments made to you.
+                                    View all transactions made to you.
                                 </CardDescription>
 
                             </div>
@@ -156,26 +187,25 @@ export default function HomePage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Customer</TableHead>
-
                                         <TableHead>Amount</TableHead>
+                                
                                         <TableHead className="text-right">Currency</TableHead>
-                                        <TableHead className="text-right">Date</TableHead>
+                                        <TableHead className="text-right">Paid</TableHead>
 
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {links.map((link) => (
+                                    {transactions.map((transaction) => (
                                         <>
-                                            <TableRow key={link.id}>
+                                            <TableRow key={transaction.id}>
                                                 <TableCell>
-                                                    <div className="font-medium"> Isaac Almanza</div>
+                                                    <div className="font-medium">{transaction.customerAddress}</div>
                                                 </TableCell>
-
                                                 <TableCell className="font-medium">
-                                                    {link.amount}
+                                                    {transaction.amount}
                                                 </TableCell>
-                                                <TableCell className="text-right">{link.currency}</TableCell>
-                                                <TableCell className="text-right">2024-03-15</TableCell>
+                                                <TableCell className="text-right">{transaction.currency}</TableCell>
+                                                <TableCell className="text-right">{transaction.createdAt}</TableCell>
                                             </TableRow>
                                         </>
                                     ))}

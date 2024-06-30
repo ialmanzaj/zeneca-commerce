@@ -13,6 +13,7 @@ import { PaySteps } from './PayFlow';
 import { useUSDCContract } from '../_contracts/useUSDC';
 import { encodeFunctionData, parseAbiItem, Hex } from "viem";
 import { useWriteContracts, useCallsStatus, useCapabilities } from 'wagmi/experimental'
+import { v4 as uuidv4 } from 'uuid';
 
 interface PaymentLink {
     id: string;
@@ -34,7 +35,7 @@ type StartPayProps = {
 
 
 const defaultUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL
-
+const idempotencyKey = uuidv4();
 
 export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps) {
     console.log("paymentLink", paymentLink);
@@ -42,7 +43,7 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
     const { data: callID, writeContracts } = useWriteContracts();
     const [amount, setAmount] = useState('1');
     const [merchantAddress, setMerchantAddress] = useState('0x02C48c159FDfc1fC18BA0323D67061dE1dEA329F');
-    
+
     const contract = useUSDCContract();
 
 
@@ -53,7 +54,7 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
                 data.state.data?.status === 'CONFIRMED' ? false : 1000,
         },
     });
-   
+
 
     if (contract.status !== 'ready') {
         console.error('Contract is not ready');
@@ -78,6 +79,26 @@ export default function Pay({ setPayStep, payStep, paymentLink }: StartPayProps)
             },
         });
     };
+
+    useEffect(() => {
+        if (callsStatus?.status === 'CONFIRMED') {
+            // Store transaction in the database
+            fetch('/api/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: paymentLink.amount,
+                    currency: paymentLink.currency,
+                    merchantAddress: merchantAddress,
+                    customerAddress: address,
+                    paymentLinkId: paymentLink.id,
+                    idempotencyKey: idempotencyKey,
+                }),
+            });
+        }
+    }, [callsStatus, paymentLink, merchantAddress, address]);
 
 
     return (

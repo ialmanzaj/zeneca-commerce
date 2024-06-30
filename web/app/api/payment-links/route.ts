@@ -17,6 +17,7 @@ export async function GET() {
         amount: true,
         currency: true,
         description: true,
+        createdAt: true,
       },
     });
     return NextResponse.json(links);
