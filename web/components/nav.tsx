@@ -32,7 +32,24 @@ export function NavbarTitle() {
   return (
     <div className="flex h-8 items-center justify-start gap-4">
       <NextLink href="/" passHref className="relative h-8 w-8" aria-label="Home page">
-        <Image src="/zeneca-black.svg" alt="Zeneca Logo" width={32} height={32} />
+        <svg
+          width={31}
+          height={29}
+          viewBox="0 0 31 29"
+          xmlns="http://www.w3.org/2000/svg"
+
+        >
+          <path
+            d="M2.147 22.526l7.45-3.563a13.726 13.726 0 0111.816.008l7.438 3.571a15.315 15.315 0 01-6.09 5.572l-4.05-1.953a7.39 7.39 0 00-6.372-.01l-4.1 1.959a15.313 15.313 0 01-6.092-5.584z"
+            fill="currentColor"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M7.53 2.227v2.77c.001 2.216-1.305 4.242-3.373 5.232L.295 12.08A14.34 14.34 0 000 14.976c0 2.022.421 3.95 1.184 5.707l7.012-3.362c3.777-1.81 6.38-5.216 7.103-9.119a.203.203 0 01.201-.163c.1 0 .185.069.202.163.722 3.903 3.325 7.309 7.103 9.12l7.012 3.36A14.29 14.29 0 0031 14.978c0-.992-.102-1.961-.295-2.899l-3.862-1.849c-2.068-.99-3.375-3.016-3.374-5.232v-2.77A15.935 15.935 0 0015.5.114c-2.914 0-5.64.772-7.97 2.113z"
+            fill="currentColor"
+          />
+        </svg>
       </NextLink>
       <NextLink
         href="/"
