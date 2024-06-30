@@ -32,28 +32,6 @@ interface PaymentLink {
 export default function HomePage() {
     const account = useAccount();
     const [links, setLinks] = useState<PaymentLink[]>([]);
-    const [title, setTitle] = useState('');
-    const [amount, setAmount] = useState('');
-    const [currency, setCurrency] = useState('USDC');
-    const [description, setDescription] = useState('');
-    const [url, setUrl] = useState('');
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const newLink: PaymentLink = {
-            id: '123',//uuidv4(),
-            title,
-            amount: parseFloat(amount),
-            currency,
-            description,
-            url,
-        };
-        setLinks([...links, newLink]);
-        setTitle('');
-        setAmount('');
-        setDescription('');
-        setUrl('');
-    };
 
     useEffect(() => {
         const fetchLinks = async () => {
@@ -79,20 +57,18 @@ export default function HomePage() {
             <Header />
             <Main>
                 <div className="container mx-auto p-4">
-
-                   
                     <Card
-                        className="xl:col-span-2" x-chunk="dashboard-01-chunk-4"
+                        className="xl:col-span-2 mb-6" x-chunk="dashboard-01-chunk-4"
                     >
                         <CardHeader className="flex flex-row items-center">
                             <div className="grid gap-2">
                                 <CardTitle>Payment Links</CardTitle>
                                 <CardDescription>
-                                    Create a payment link to send to your customers.
+                                    Payment links to send to your customers.
                                 </CardDescription>
-    
                             </div>
                             <PaymentLinkModal />
+
                         </CardHeader>
                         <CardContent>
                             <Table>
@@ -119,9 +95,52 @@ export default function HomePage() {
                                                 </TableCell>
                                                 <TableCell className="text-right">{link.currency}</TableCell>
                                             </TableRow>
+                                        </>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
 
+                    <Card
+                        className="xl:col-span-2 mb-6" x-chunk="dashboard-01-chunk-4"
+                    >
+                        <CardHeader className="flex flex-row items-center">
+                            <div className="grid gap-2">
+                                <CardTitle>Payments</CardTitle>
+                                <CardDescription>
+                                    View all payments made to you.
+                                </CardDescription>
 
+                            </div>
 
+                        </CardHeader>
+                        <CardContent>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Customer</TableHead>
+
+                                        <TableHead>Amount</TableHead>
+                                        <TableHead className="text-right">Currency</TableHead>
+                                        <TableHead className="text-right">Date</TableHead>
+
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {links.map((link) => (
+                                        <>
+                                            <TableRow key={link.id}>
+                                                <TableCell>
+                                                    <div className="font-medium"> Isaac Almanza</div>
+                                                </TableCell>
+
+                                                <TableCell className="font-medium">
+                                                    {link.amount}
+                                                </TableCell>
+                                                <TableCell className="text-right">{link.currency}</TableCell>
+                                                <TableCell className="text-right">2024-03-15</TableCell>
+                                            </TableRow>
                                         </>
                                     ))}
                                 </TableBody>

@@ -23,38 +23,34 @@ interface PaymentLink {
     amount: number;
     title: string;
     description?: string;
-    collectFullName: boolean;
-    collectEmail: boolean;
-    collectAddress: boolean;
-    collectPhoneNumber: boolean;
-    createdAt: string;
+    merchantName: string;
 }
 
-export default function PayDemo() {
+export default function PayFlow({ link }: { link: PaymentLink }) {
     const [payStep, setPayStep] = useState<PaySteps>(PaySteps.START_PAY_STEP);
 
     const { isConnected } = useAccount();
 
     return (
-        <div className="bg-gray-800 text-white p-6 rounded-lg max-w-md mx-auto">
+        <div className="bg-gray-100 p-6 rounded-lg max-w-md mx-auto border border-gray-200 shadow-md">
             <div className="flex items-center mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 mr-3"></div>
-                <h2 className="text-xl font-bold">Isaac</h2>
+                <h2 className="text-xl font-bold">{link.merchantName}</h2>
 
             </div>
 
             <div className="mb-8 h-72">
                 <div className="mb-4 flex">
                     <p className="text-gray-400 text-xs grow">PRODUCTS • 1</p>
-                    <p className="text-right text-gray-400 text-sm">$100</p>
+                    <p className="text-right text-gray-400 text-sm">${link.amount}</p>
                 </div>
                 <div className="flex items-center mb-2">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 mr-3"></div>
                     <div>
-                        <p className="font-bold">pago de servicios</p>
-                        <p className="text-gray-400">pago de servicios de internet</p>
+                        <p className="font-bold">{link.title}</p>
+                        <p className="text-gray-400">{link.description}</p>
                     </div>
-                    <p className="ml-auto">$100</p>
+                    <p className="ml-auto">${link.amount}</p>
                 </div>
             </div>
 

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { EXPECTED_CHAIN } from '@/constants';
 import PaymentComplete from './PaymentComplete';
 import Processing from './Processing';
-import { PaySteps } from './PayDemo';
+import { PaySteps } from './PayFlow';
 import { useUSDCContract } from '../_contracts/useUSDC';
 import { encodeFunctionData, parseAbiItem, Hex } from "viem";
 import { useWriteContracts, useCallsStatus, useCapabilities } from 'wagmi/experimental'

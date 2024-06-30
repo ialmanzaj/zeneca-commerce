@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import clsx from 'clsx';
-import { PaySteps } from './PayDemo';
+import { PaySteps } from './PayFlow';
 
 type MintCompleteStepProps = {
     setPayStep: React.Dispatch<React.SetStateAction<PaySteps>>;
@@ -16,7 +16,7 @@ export default function StepMintComplete({ setPayStep, merchantName }: MintCompl
         <div
             className={clsx(
                 'rounded-lg border border-boat-color-palette-line',
-                'mb-8 bg-boat-footer-dark-gray p-8',
+                'mb-8 bg-primary p-8',
             )}
         >
             <h2 className="mb-5 w-full text-center text-2xl font-semibold text-white">

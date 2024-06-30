@@ -11,7 +11,7 @@ import { FC } from 'react';
 // for its internals we get annoying hydration errors. A future enhancement would be to
 // read token metadata through a provider that is available server-side.
 const PayDemo = dynamic(
-    async () => import('@/app/pay/_components/PayDemo').then((mod) => mod),
+    async () => import('@/app/pay/_components/PayFlow').then((mod) => mod),
     {
         ssr: false,
     },
@@ -25,18 +25,29 @@ interface PaymentLink {
     amount: number;
     title: string;
     description?: string;
-    collectFullName: boolean;
-    collectEmail: boolean;
-    collectAddress: boolean;
-    collectPhoneNumber: boolean;
-    createdAt: string;
+    merchantName: string;
+}
+
+const paymentLinkExample: PaymentLink = {
+    id: '123',
+    link: 'https://www.google.com',
+    currency: 'USDC',
+    amount: 100,
+    title: 'Pago de servicios',
+    description: 'pago de servicios de internet de la empresa XYZ',
+    merchantName: 'Isaac Almanza',
 }
 
 const PayPage: FC<{ params: { id: string } }> = ({ params }) => {
+    console.log(params);
     return (
-        <Main>
-            <PayDemo />
-        </Main>
+        <div className="bg-gray-100 min-h-screen">
+
+            <Main>
+                <PayDemo link={paymentLinkExample} />
+            </Main>
+
+        </div>
     );
 }
 export default PayPage;
