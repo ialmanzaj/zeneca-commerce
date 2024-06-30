@@ -5,23 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Copy, Share2 } from "lucide-react";
 
-interface PaymentLink {
-    currency: string;
-    amount: number;
-    title: string;
-    description?: string;
-    url: string;
-}
+
 
 interface SharePaymentLinkDialogProps {
     isOpened: boolean;
-    paymentLink: PaymentLink;
+    paymentLink: string;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const SharePaymentLinkDialog: React.FC<SharePaymentLinkDialogProps> = ({ isOpened, paymentLink }) => {
-    const paymentLinkUrl = `${API_URL}${paymentLink.url}`;
+    const paymentLinkUrl = `${API_URL}${paymentLink}`;
 
     const [isOpen, setIsOpen] = useState(isOpened);
     const copyToClipboard = () => {

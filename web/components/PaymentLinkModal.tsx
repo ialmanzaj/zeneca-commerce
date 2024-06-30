@@ -26,7 +26,7 @@ interface PaymentLink {
     currency: string;
     amount: number;
     title: string;
-    url?: string;
+    url: string;
     description?: string;
     collectFullName: boolean;
     collectEmail: boolean;
@@ -65,6 +65,7 @@ const PaymentLinkModal: React.FC = () => {
             currency,
             amount: parseFloat(amount),
             title,
+            url: "",
             description,
             collectFullName,
             collectEmail,
@@ -180,7 +181,7 @@ const PaymentLinkModal: React.FC = () => {
             {dialogLink && (
                 <SharePaymentLinkDialog
                     isOpened={dialogLink !== null}
-                    paymentLink={dialogLink}
+                    paymentLink={dialogLink.url}
                 />
             )}
         </>
