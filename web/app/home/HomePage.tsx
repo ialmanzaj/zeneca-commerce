@@ -14,6 +14,7 @@ import PaymentLinkModal from '@/components/PaymentLinkModal';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 import { Copy } from "lucide-react";
+import { usePrivy } from '@privy-io/react-auth';
 
 
 interface PaymentLink {
@@ -59,7 +60,7 @@ const truncateUrl = (url: string, maxLength: number) => {
 };
 
 export default function HomePage() {
-    const account = useAccount();
+    const { ready, authenticated, login, logout } = usePrivy();
     const [links, setLinks] = useState<PaymentLink[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -110,7 +111,7 @@ export default function HomePage() {
         <>
             <Header />
             <Main>
-                {account.address ? (
+                {authenticated ? (
                     <div className="container mx-auto p-4">
                         <Card
                             className="xl:col-span-2 mb-6" x-chunk="dashboard-01-chunk-4"
