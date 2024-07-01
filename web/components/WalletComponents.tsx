@@ -14,26 +14,34 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
+import { Button } from '@/components/ui/button';
+
+import { usePrivy } from '@privy-io/react-auth';
+
+function LoginButton() {
+  const { ready, authenticated, login, logout } = usePrivy();
+  // Disable login when Privy is not ready or the user is already authenticated
+  const disableLogin = !ready || (ready && authenticated);
+  const disableLogout = !ready || (ready && !authenticated);
+  return (
+    <>
+      {authenticated ? (
+        <Button disabled={disableLogout} onClick={logout}>
+          Log out
+        </Button>
+      ) : (
+        <Button disabled={disableLogin} onClick={login}>
+          Log in
+        </Button>
+      )}
+    </>
+  );
+}
 
 export function WalletComponents() {
   return (
     <div className="flex justify-end">
-      <Wallet>
-        <ConnectWallet className='p-3 rounded-2xl'>
-          <Avatar className="h-6 w-6" />
-
-        </ConnectWallet>
-        <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick >
-            <Avatar />
-            <Name>
-              <Badge />
-            </Name>
-            <Address className={color.foregroundMuted} />
-          </Identity>
-          <WalletDropdownDisconnect />
-        </WalletDropdown>
-      </Wallet>
+      <LoginButton />
     </div>
   );
 }
