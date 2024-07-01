@@ -11,7 +11,7 @@ function LoginButton() {
       if (user.wallet && isNewUser) {
         const merchant = await fetch('/api/merchant', {
           method: 'POST',
-          body: JSON.stringify({ address: user.wallet.address, email: user.email }),
+          body: JSON.stringify({ id: user.id.split(":")[2], address: user.wallet.address, email: user.email }),
         });
         console.log("merchant", merchant);
       }
