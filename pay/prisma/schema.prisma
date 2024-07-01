@@ -12,7 +12,7 @@ datasource db {
 
 model Merchant {
   id           String        @id @default(cuid())
-  name         String
+  name         String?
   address      String
   email        String?
   phoneNumber  String?
