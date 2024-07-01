@@ -21,6 +21,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import SharePaymentLinkDialog from "@/components/share";
+import { prisma } from "@/lib/prisma";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface PaymentLink {
     currency: string;
@@ -66,48 +68,47 @@ const PaymentLinkModal: React.FC = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogLink, setDialogLink] = useState<PaymentLinkResponse | null>(null);
 
-    const handleCreate = async () => {
-        const paymentLinkData: PaymentLink = {
-            currency,
-            amount: parseFloat(amount),
-            title,
-            description,
-            collectFullName,
-            collectEmail,
-            collectAddress,
-            collectPhoneNumber,
-        };
+    const { register, handleSubmit, formState: { errors }, control } = useForm<FormData>({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            currency: "USDC",
+            amount: 0,
+            title: "",
+            description: "",
+            collectFullName: false,
+            collectEmail: false,
+            collectAddress: false,
+            collectPhoneNumber: false,
+        }
+    });
+    const { user } = usePrivy();
+    console.log("user", user?.id);
 
+    const onSubmit = async (data: FormData) => {
         try {
+            const merchantId = user?.id.split(":")[2];
+            console.log("merchantId", merchantId);
             const response = await fetch('/api/payment-links', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(paymentLinkData),
+                body: JSON.stringify({ ...data, merchantId: user?.id.split(":")[2] }),
             });
 
             if (response.ok) {
                 setIsDialogOpen(false);
                 const createdLink = await response.json();
-                console.log("createdLink", createdLink)
                 setDialogLink(createdLink);
                 console.log('Payment link created:', createdLink);
-                // Here you can add logic to update your UI, close the modal, show a success message, etc.
             } else {
                 console.error('Failed to create payment link');
-                // Handle error (show error message to user)
             }
         } catch (error) {
             console.error('Error creating payment link:', error);
-            // Handle error (show error message to user)
         }
     };
 
-    const handleClose = () => {
-        setIsDialogOpen(false);
-
-    };
 
 
     return (
@@ -120,7 +121,7 @@ const PaymentLinkModal: React.FC = () => {
                     <DialogHeader>
                         <DialogTitle>Payment link</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
                         <div className="grid grid-cols-2 gap-4">
                             <Select value={currency} onValueChange={setCurrency}>
                                 <SelectTrigger>
@@ -128,31 +129,27 @@ const PaymentLinkModal: React.FC = () => {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="USDC">USDC</SelectItem>
-
                                 </SelectContent>
                             </Select>
                             <Input
                                 type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
+                                {...register("amount", { valueAsNumber: true })}
                                 placeholder="Amount"
                             />
                         </div>
                         <Input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            {...register("title")}
                             placeholder="Title"
                         />
                         <Textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            {...register("description")}
                             placeholder="Description (optional)"
                         />
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="fullName"
                                 checked={collectFullName}
-                                onCheckedChange={(checked) => setCollectFullName(checked as boolean)}
+                                {...register("collectFullName")}
                             />
                             <label htmlFor="fullName">Collect full name</label>
                         </div>
@@ -160,7 +157,7 @@ const PaymentLinkModal: React.FC = () => {
                             <Checkbox
                                 id="email"
                                 checked={collectEmail}
-                                onCheckedChange={(checked) => setCollectEmail(checked as boolean)}
+                                {...register("collectEmail")}
                             />
                             <label htmlFor="email">Collect email</label>
                         </div>
@@ -168,7 +165,7 @@ const PaymentLinkModal: React.FC = () => {
                             <Checkbox
                                 id="address"
                                 checked={collectAddress}
-                                onCheckedChange={(checked) => setCollectAddress(checked as boolean)}
+                                {...register("collectAddress")}
                             />
                             <label htmlFor="address">Collect address</label>
                         </div>
@@ -176,12 +173,12 @@ const PaymentLinkModal: React.FC = () => {
                             <Checkbox
                                 id="phoneNumber"
                                 checked={collectPhoneNumber}
-                                onCheckedChange={(checked) => setCollectPhoneNumber(checked as boolean)}
+                                {...register("collectPhoneNumber")}
                             />
                             <label htmlFor="phoneNumber">Collect phone number</label>
                         </div>
-                    </div>
-                    <Button onClick={handleCreate} className="w-full">Create</Button>
+                        <Button type="submit" className="w-full">Create</Button>
+                    </form>
                 </DialogContent>
             </Dialog>
             {dialogLink && (

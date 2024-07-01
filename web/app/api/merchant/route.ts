@@ -7,7 +7,9 @@ export async function POST(request: Request) {
 
     const merchant = await prisma.merchant.create({
       data: {
+        id: body.id,
         address: body.address,
+        email: body.email,
       },
     });
     return NextResponse.json(merchant, { status: 201 });
